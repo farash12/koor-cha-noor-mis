@@ -1,0 +1,40 @@
+{
+  "name": "Koor Cha Noor MIS",
+  "short_name": "KCN MIS",
+  "description": "Koor Cha Noor Management Information System",
+  "lang": "en",
+  "dir": "ltr",
+
+  "start_url": "./",
+  "scope": "./",
+
+  "display": "standalone",
+
+  "orientation": "portrait",
+
+  "background_color": "#0B3B8C",
+  "theme_color": "#0B3B8C",
+
+  "categories": [
+    "education",
+    "productivity"
+  ],
+
+  "icons": [
+
+    {
+      "src":"assets/images/icon-192.png",
+      "sizes":"192x192",
+      "type":"image/png",
+      "purpose":"any maskable"
+    },
+
+    {
+      "src":"assets/images/icon-512.png",
+      "sizes":"512x512",
+      "type":"image/png",
+      "purpose":"any maskable"
+    }
+
+  ]
+}
