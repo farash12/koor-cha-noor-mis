@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<meta name="theme-color" content="#0B3B8C">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<title>Koor Cha Noor MIS</title>
+
+<link rel="manifest" href="manifest.json">
+
+<link rel="icon" href="assets/images/favicon.png">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html,
+body{
+
+height:100%;
+
+overflow:hidden;
+
+font-family:
+Arial,
+Helvetica,
+sans-serif;
+
+background:#0B3B8C;
+
+}
+
+/* Splash Screen */
+
+#splash{
+
+position:fixed;
+
+inset:0;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+background:#0B3B8C;
+
+z-index:9999;
+
+transition:.4s;
+
+}
+
+#logo{
+
+width:130px;
+
+margin-bottom:25px;
+
+}
+
+h1{
+
+color:white;
+
+font-size:30px;
+
+margin-bottom:8px;
+
+}
+
+.subtitle{
+
+color:#ffffffbb;
+
+font-size:15px;
+
+}
+
+.loader{
+
+margin-top:35px;
+
+width:55px;
+
+height:55px;
+
+border-radius:50%;
+
+border:4px solid rgba(255,255,255,.25);
+
+border-top:4px solid white;
+
+animation:spin .9s linear infinite;
+
+}
+
+@keyframes spin{
+
+100%{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+/* App */
+
+iframe{
+
+width:100%;
+
+height:100%;
+
+border:none;
+
+display:none;
+
+background:white;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="splash">
+
+<img
+id="logo"
+src="assets/images/logo.png">
+
+<h1>Koor Cha Noor MIS</h1>
+
+<div class="subtitle">
+
+Management Information System
+
+</div>
+
+<div class="loader"></div>
+
+</div>
+
+<iframe
+
+id="appFrame"
+
+allow="camera; microphone; geolocation; clipboard-write">
+
+</iframe>
+
+<script>
+
+/****************************************************
+
+CHANGE ONLY THIS
+
+****************************************************/
+
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbyYRag4Tl67K2AqqCilL4xfEtWOjtrgeI0Umq-TPc7AKyFoDZuXzvMyxvYDUUB-SXj_pw/exec";
+
+/****************************************************/
+
+const frame=document.getElementById("appFrame");
+
+const splash=document.getElementById("splash");
+
+const email=localStorage.getItem("kcn_email");
+
+const pass=localStorage.getItem("kcn_pass");
+
+if(email && pass){
+
+frame.src=
+
+SCRIPT_URL+
+
+"?email="+
+
+encodeURIComponent(email)+
+
+"&pass="+
+
+encodeURIComponent(pass);
+
+}
+
+else{
+
+frame.src=SCRIPT_URL;
+
+}
+
+frame.onload=()=>{
+
+setTimeout(()=>{
+
+frame.style.display="block";
+
+splash.style.opacity="0";
+
+setTimeout(()=>{
+
+splash.remove();
+
+},400);
+
+},1000);
+
+};
+
+window.addEventListener("message",(e)=>{
+
+if(!e.data)return;
+
+switch(e.data.type){
+
+case "SAVE_LOGIN":
+
+localStorage.setItem(
+
+"kcn_email",
+
+e.data.email
+
+);
+
+localStorage.setItem(
+
+"kcn_pass",
+
+e.data.pass
+
+);
+
+break;
+
+case "CLEAR_LOGIN":
+
+localStorage.clear();
+
+location.reload();
+
+break;
+
+}
+
+});
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register("sw.js");
+
+}
+
+</script>
+
+</body>
+
+</html>
